@@ -2,7 +2,18 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        grey: "#eeeeee",
+        teal: "#00ADB5",
+        darkGrey: "#393E46",
+        mainColor: "#222831",
+      },
+    },
+
+    fontFamily: {
+      iranSans: ["iranSans"],
+    },
   },
   plugins: [],
 };

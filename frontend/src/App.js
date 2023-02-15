@@ -1,9 +1,11 @@
 import React from "react";
+import { Navbar } from "./components/Navbar";
+import { Topbar } from "./components/Topbar";
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="">infinity</h1>
+    <div className="">
+      <Navbar />
     </div>
   );
 }
