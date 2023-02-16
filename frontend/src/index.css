@@ -21,7 +21,7 @@
 
 @layer components {
   .section-container {
-    @apply container mx-auto py-4;
+    @apply container mx-auto py-4 px-2;
   }
 }
 
