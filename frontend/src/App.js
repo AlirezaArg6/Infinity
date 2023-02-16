@@ -1,4 +1,5 @@
 import React from "react";
+import { Articles } from "./components/Articles";
 import { Help } from "./components/Help";
 import { Landing } from "./components/Landing";
 import { Navbar } from "./components/Navbar";
@@ -18,6 +19,7 @@ function App() {
       <Help />
       <PopularCourses />
       <PresellCourses />
+      <Articles />
     </div>
   );
 }
