@@ -7,6 +7,12 @@
   src: url("fonts/IRANSans4/IRANSans_Medium.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "iranSansWeb";
+  src: url("fonts/IRANSansWeb(FaNum)-Pack/fonts/ttf/IRANSansWeb(FaNum).ttf")
+    format("truetype");
+}
+
 @layer base {
   body {
     @apply font-iranSans bg-grey text-mainColor;
@@ -17,4 +23,9 @@
   .section-container {
     @apply container mx-auto py-4;
   }
+}
+
+.swiper-wrapper {
+  padding: 15px;
+  margin: 10px;
 }

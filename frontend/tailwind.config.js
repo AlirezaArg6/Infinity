@@ -13,6 +13,7 @@ module.exports = {
 
     fontFamily: {
       iranSans: ["iranSans"],
+      iranSansWeb: ["iranSansWeb"],
     },
   },
   plugins: [],
