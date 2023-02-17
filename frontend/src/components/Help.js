@@ -8,7 +8,7 @@ export const Help = () => {
       <div className="section-container">
         <SectionTitle title="ما چه کمکی بهتون میکنیم؟" />
         {/* help box container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
           <HelpBox />
           <HelpBox />
           <HelpBox />
