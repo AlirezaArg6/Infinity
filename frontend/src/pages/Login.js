@@ -1,18 +1,21 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { Input } from "../components/common/Input";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { Topbar } from "../components/Topbar";
 import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import swal from "sweetalert";
 
 const initialValues = {
-  username: "",
+  identifier: "",
   password: "",
 };
 
 const validationSchema = Yup.object({
-  username: Yup.string()
+  identifier: Yup.string()
     .required("پر کردن این فیلد اجباری می باشد")
     .min(6, "حداقل کاراکتر برای نام کاربری  6 کاراکتر می باشد")
     .max(20, "حداکثر کاراکتر برای نام کاربری  20 کاراکتر می باشد"),
@@ -26,11 +29,49 @@ const validationSchema = Yup.object({
     ),
 });
 
-const onSubmit = (values) => {
-  console.log(values);
-};
-
 export const Login = () => {
+  const authContext = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const onSubmit = (values) => {
+    fetch(`http://localhost:4000/v1/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          return res.text().then((text) => {
+            throw new Error(text);
+          });
+        } else {
+          return res.json();
+        }
+      })
+      .then((result) => {
+        swal({
+          title: "با موفقیت لاگین شدید",
+          icon: "success",
+          buttons: "ورود به پنل",
+        }).then((value) => {
+          navigate("/");
+        });
+        console.log(result);
+        authContext.login({}, result.accessToken);
+      })
+      .catch((err) => {
+        swal({
+          title: "همچین کاربری وجود ندارد",
+          icon: "error",
+          buttons: "تلاش دوباره",
+        });
+      });
+  };
+
   const formik = useFormik({ initialValues, onSubmit, validationSchema });
 
   return (
@@ -47,13 +88,16 @@ export const Login = () => {
           <h3 className="text-center  font-bold text-4xl mb-8 text-transparent  bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">
             ورود
           </h3>
+          <span className="inline-block mb-6 text-sm text-blue-500">
+            ثبت نام نکردی؟ <Link to={"/register"}>ثبت نام</Link>
+          </span>
           {/* groups */}
           <div className="space-y-4">
             {/* group 1 */}
             <Input
               formik={formik}
               label="نام کاربری"
-              id="username"
+              id="identifier"
               type="text"
             />
             {/* group 2 */}

@@ -29,3 +29,7 @@
   padding: 15px;
   margin: 10px;
 }
+
+.swal-footer {
+  text-align: center;
+}

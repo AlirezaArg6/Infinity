@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRoutes } from "react-router-dom";
 
 import { routes } from "./routes";
@@ -11,13 +11,13 @@ function App() {
   const [token, setToken] = useState(false);
   const [userInfos, setUserInfos] = useState({});
 
-  const login = (userInfos, token) => {
+  const login = useCallback((userInfos, token) => {
     setToken(token);
     console.log(userInfos);
     setIsLoggedIn(true);
     setUserInfos(userInfos);
     localStorage.setItem("user", JSON.stringify({ token }));
-  };
+  }, []);
 
   const logout = () => {
     setToken(null);
@@ -41,7 +41,7 @@ function App() {
     } else {
       setIsLoggedIn(false);
     }
-  }, [login, logout]);
+  }, [login]);
 
   return (
     <AuthContext.Provider

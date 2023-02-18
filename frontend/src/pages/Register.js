@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Topbar } from "../components/Topbar";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Input } from "../components/common/Input";
 import swal from "sweetalert";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 const initialValues = {
   name: "",
@@ -43,23 +45,40 @@ const validationSchema = Yup.object({
     .oneOf([Yup.ref("password"), null], "رمز عبور ها باید یکسان باشند"),
 });
 
-const onSubmit = (values) => {
-  fetch("http://localhost:4000/v1/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(values),
-  })
-    .then((res) => res.json())
-    .then((result) => console.log(result));
-};
-
 export const Register = () => {
-  const formik = useFormik({ initialValues, onSubmit, validationSchema });
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  console.log(formik.errors);
-  console.log(formik.touched);
+  const onSubmit = (values) => {
+    fetch("http://localhost:4000/v1/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 403) {
+          swal({
+            title: "این شماره توسط ادمین بن شده است",
+            icon: "error",
+            buttons: "باشه",
+          });
+        } else {
+          return res.json();
+        }
+      })
+      .then((result) => {
+        authContext.login(result.user, result.accessToken);
+        swal({
+          title: "با موفقیت ثبت نام شدید",
+          icon: "success",
+          buttons: "صفحه اصلی",
+        }).then((res) => navigate("/"));
+      });
+  };
+  const formik = useFormik({ initialValues, onSubmit, validationSchema });
 
   return (
     <>
@@ -75,6 +94,9 @@ export const Register = () => {
           <h3 className="text-center  font-bold text-4xl mb-8 text-transparent  bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">
             ثبت نام
           </h3>
+          <span className="inline-block mb-6 text-sm text-blue-500">
+            ثبت نام کردی؟ <Link to={"/login"}>ورود</Link>
+          </span>
           {/* groups */}
           <div className="space-y-4">
             {/* group 1 */}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   AiFillCloseCircle,
   AiOutlineSearch,
@@ -6,9 +6,14 @@ import {
 } from "react-icons/ai";
 import { HiShoppingCart } from "react-icons/hi";
 import { GiHamburgerMenu } from "react-icons/gi";
+import AuthContext from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
+
+  const authContext = useContext(AuthContext);
+  console.log(authContext);
 
   return (
     <>
@@ -52,9 +57,21 @@ export const Navbar = () => {
               <HiShoppingCart className="text-white text-xl" />
             </div>
             {/* login reister */}
-            <a className="hidden bg-blue-500  text-white px-4 py-2 rounded lg:block lg:mx-3">
-              ورود / ثبت نام
-            </a>
+            {authContext.isLoggedIn ? (
+              <Link
+                to={"/"}
+                className="hidden bg-blue-500  text-white px-4 py-2 rounded lg:block lg:mx-3"
+              >
+                {authContext.userInfos.name}
+              </Link>
+            ) : (
+              <Link
+                to={"/login"}
+                className="hidden bg-blue-500  text-white px-4 py-2 rounded lg:block lg:mx-3"
+              >
+                ورود / ثبت نام
+              </Link>
+            )}
             <a
               href="#"
               className="flex items-center justify-center w-10 h-10 bg-blue-500 px-2 ml-3 rounded text-white font-bold lg:hidden"
