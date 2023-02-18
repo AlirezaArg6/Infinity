@@ -9,6 +9,9 @@ module.exports = {
         darkGrey: "#393E46",
         mainColor: "#222831",
       },
+      boxShadow: {
+        medium: "0 8px 24px rgba(149, 157, 165, 0.2)",
+      },
     },
 
     fontFamily: {
